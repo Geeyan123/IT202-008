@@ -129,11 +129,24 @@ $username = get_username();
         //example of using flash via javascript
         //find the flash container, create a new element, appendChild
         if (pw !== con) {
-            flash("Password and Confrim password must match", "warning");
+            //find the container
+            let flash = document.getElementById("flash");
+            //create a div (or whatever wrapper we want)
+            let outerDiv = document.createElement("div");
+            outerDiv.className = "row justify-content-center";
+            let innerDiv = document.createElement("div");
+
+            //apply the CSS (these are bootstrap classes which we'll learn later)
+            innerDiv.className = "alert alert-warning";
+            //set the content
+            innerDiv.innerText = "Password and Confirm password must match";
+
+            outerDiv.appendChild(innerDiv);
+            //add the element to the DOM (if we don't it merely exists in memory)
+            flash.appendChild(outerDiv);
             isValid = false;
         }
         return isValid;
-    }
 </script>
 <?php
 require_once(__DIR__ . "/../../partials/flash.php");

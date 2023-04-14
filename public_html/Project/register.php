@@ -26,7 +26,40 @@ reset_session();
         //TODO 1: implement JavaScript validation
         //ensure it returns false for an error and true for success
 
-        return true;
+        let email = form.email.value;
+        let username = form.username.value;
+        let password = form.password.value;
+        let confirm = form.confirm.value;
+        let isValid = true;
+        if (email) {
+            email = email.trim();
+        }
+        if (username) {
+            username = username.trim();
+        }
+        if (password) {
+            password = password.trim();
+        }
+        if (confirm) {
+            confirm = confirm.trim();
+        }
+        if (!username || username.length === 0) {
+            isValid = false;
+            alert("Must provide a username");
+        }
+        if (email.indexOf("@") === -1) {
+            isValid = false;
+            alert("Invalid email");
+        }
+        if (password !== confirm) {
+            isValid = false;
+            alert("Passwords don't match");
+        }
+        if (password.length < 3) {
+            isValid = false;
+            alert("Password must be 3 or more characters");
+        }
+        return isValid;
     }
 </script>
 <?php
