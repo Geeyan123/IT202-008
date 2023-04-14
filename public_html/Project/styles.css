@@ -1,0 +1,40 @@
+.alert-success {
+    background-color: green
+}
+
+.alert-warning {
+    background-color: yellow;
+}
+
+.alert-danger {
+    background-color: red;
+}
+
+.alert-info {
+    background-color: white;
+}
+
+nav li a{color: grey}
+input{border-radius: 50%;}
+
+p.solid {border-top-style: solid;}
+
+p{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
+
+}
+
+div {
+    padding: 10px;
+
+}
+
+
+body{
+    background-color: lightgray;
+    color: rgb(60, 60, 60);
+
+}
