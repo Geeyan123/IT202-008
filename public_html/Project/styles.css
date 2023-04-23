@@ -1,0 +1,80 @@
+alert-success {
+    background-color: green;
+    color: lightgoldenrodyellow;
+
+  }
+
+  .alert-warning {
+    background-color: green;
+ 
+  }
+
+  .alert-danger {
+    background-color: red;
+    color: lightgoldenrodyellow;
+
+
+  }
+
+  .alert-info {
+    background-color: green;
+    color: lightgoldenrodyellow
+ 
+  }
+
+  nav li {
+    display: inline-flex;
+
+  }
+
+  nav ul {
+      padding-top: 20px;
+
+    }
+
+    p{
+        word-spacing: 100px;
+    }
+  nav li a {
+    color: goldenrod;
+    text-decoration:wavy;
+    margin-top: 0px;
+  }
+
+nav li a:hover {
+      color: red;
+    }
+  input {
+    border-radius: 6px;
+    margin-top: 4px;
+    border: 1px solid #5a5a5a;
+    height: 25px;
+  }
+
+  body {
+    font-size:medium;
+    font-style: italic;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    margin: 5;
+    padding: 5;
+  }
+
+  .form-input {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    margin-top: 5px;
+    width: 100;
+  }
+
+  .btn{
+      width: 100px;
+      margin: 0 auto;
+      display: block;
+      margin-top: 15px;
+
+  }
+
+  div {
+    padding: 10px;
+  }
