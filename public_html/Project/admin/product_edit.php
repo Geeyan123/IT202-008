@@ -7,6 +7,14 @@
         ?>
 
         <?php
+            $id = $_GET['id'];
+            $db = getDB();
+            $stmt = $db->prepare("select * FROM Products where id=? LIMIT 1");
+            $stmt->execute([$id]);
+            $product = $stmt->fetch();
+        ?>
+
+        <?php
 
         if (is_logged_in(true, '../login.php')) {
             //comment this out if you don't want to see the session variables
@@ -16,35 +24,37 @@
         <!-- Start your project here-->
         <div class="container">
             <div class="d-flex justify-content-center align-items-center" style="height: 100vh">
+       
                 <form method="POST">
-                <h1>Create Product</h1>
+        <h1>Edit Product</h1>
+
                         <!-- 2 column grid layout with text inputs for the first and last names -->
                         <div class="row mb-4">
                             <div class="col">
                             <div class="input-group">
-                                <input type="text" id="form3Example1" name="name" placeholder="Title" class="form-control" />
+                                <input type="text" id="form3Example1" name="name" value="<?php echo $product['name'] ?>" placeholder="Title" class="form-control" />
                             </div>
                             </div>
                             <div class="col">
                             <div class="input-group">
-                                <input type="text" id="form3Example2" name="category" placeholder="Category" class="form-control" />
+                                <input type="text" id="form3Example2" name="category"  value="<?php echo $product['category'] ?>" placeholder="Category" class="form-control" />
                             </div>
                             </div>
                         </div>
 
                         <div class="input-group mb-4">
-                            <input type="text" name="description" placeholder="Description" id="form3Example3" class="form-control" />
+                            <input type="text" name="description" placeholder="Description"  value="<?php echo $product['description'] ?>" id="form3Example3" class="form-control" />
                         </div>
 
                         <div class="row mb-4">
                             <div class="col">
                             <div class="input-group">
-                                <input type="number" id="form3Example1" min="1" class="form-control" name="stock"  placeholder="Stock"/>
+                                <input type="number" id="form3Example1" min="1" class="form-control"  value="<?php echo $product['stock'] ?>" name="stock"  placeholder="Stock"/>
                             </div>
                             </div>
                             <div class="col">
                             <div class="input-group">
-                            <input type="number" id="form3Example1" min="1" class="form-control" name="unit_price"   placeholder="Unit Price"/>
+                            <input type="number" id="form3Example1" min="1" class="form-control"  value="<?php echo $product['unit_price'] ?>" name="unit_price"   placeholder="Unit Price"/>
                             </div>
                             </div>
                         </div>
