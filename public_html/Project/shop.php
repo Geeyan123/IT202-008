@@ -21,7 +21,7 @@
                 <?php
                     foreach($products as $product) {
                 ?>
-                <div class="col-md-4">
+                <div class="col-md-4" style="margin-bottom: 30px">
                     <div class="card text-center">
                         <div class="card-header"><?php echo $product['category'] ?></div>
                             <div class="card-body">
@@ -35,14 +35,18 @@
                             <a href="#" class="btn btn-primary">Add to cart</a>
                             <?php } ?>
 
+                            <?php if(has_role('Admin')) { ?>
+                            <a href="<?php echo get_url('admin/product_edit.php?id='.$product['id'])?>" class="btn btn-primary">Edit</a>
+                            <?php } ?>
                     </div>
                 </div>
+                
                 <?php
                     }
                     ?>
             </div>
         </div>
-
+    
     
     </body>
 </html>
