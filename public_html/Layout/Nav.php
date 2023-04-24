@@ -26,7 +26,7 @@
 
     <!-- Center elements -->
     <ul class="navbar-nav flex-row d-none d-md-flex">
-      <a class="text-reset me-4" href="#">
+      <a href="<?php echo get_url('cart.php'); ?>" class="text-reset me-4" href="#">
         <i class="fas fa-shopping-cart"></i>
           <span class="badge rounded-pill badge-notification bg-danger"><?php echo $number_of_rows ?></span>
       </a>
