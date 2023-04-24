@@ -25,13 +25,14 @@ session_start();
 
 ?>
 
+<!-- include css and js files -->
+<script src="<?php echo get_url('helpers.js'); ?>"></script>
 
 <?php
 require(__DIR__ . "/Nav.php");
 ?>
 
-<!-- include css and js files -->
-<script src="<?php echo get_url('helpers.js'); ?>"></script>
+
 <?php
     require(__DIR__ . "/../Layout/Header.php");
 ?>
@@ -42,12 +43,4 @@ require(__DIR__ . "/Nav.php");
 
 <?php
 require(__DIR__ . "/../../partials/flash.php");
-?>
-
-<?php
-
-if (is_logged_in(true)) {
-    //comment this out if you don't want to see the session variables
-    error_log("Session data: " . var_export($_SESSION, true));
-}
 ?>
