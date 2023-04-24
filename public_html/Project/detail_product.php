@@ -41,6 +41,13 @@
             <br>
             <br>
             <div class="row">
+
+            <form>
+                <input type="hidden" name="user_id" value="<?php echo get_user_id() ?>" >    
+                <input type="hidden" name="product_id" value="<?php $product['id'] ?>" >    
+                <input type="hidden" name="stock" value="<?php echo $product['stock'] ?>" >    
+                <input type="hidden" name="unit_price" value="<?php echo $product['unit_price'] ?>" >    
+            </form>
                
                 <div class="col-md">
                     <div class="card text-center">
@@ -64,3 +71,28 @@
 
     </body>
 </html>
+
+<?php
+if (isset($_POST["product_stock"])) {
+    $stock = se($_POST, "stock", "", false);
+    $user_id = (int) se($_POST, "user_id", "", false);
+    $product_id = (int) se($_POST, "product_id", "", false);
+    $unit_price = (int) se($_POST, "unit_price", "", false);
+
+    $hasError = false;
+    if (empty($stock) || $stock < 1) {
+        flash("This product is in out of stock", "danger");
+        $hasError = true;
+    }
+    if (!$hasError) {
+        $db = getDB();
+        $stmt = $db->prepare("INSERT INTO Cart (name, description, category, stock, unit_price, visibility) VALUES(:name, :description, :category, :stock, :unit_price, :visibility)");
+        try {
+            $stmt->execute([":name" => $name, ":description" => $description, ":category" => $category, ":stock" => $stock, ":unit_price" => $unit_price, ":visibility" => $visibility]);
+            flash("Product Successfully created!", "success");
+        } catch (Exception $e) {
+            print_r($e);
+        }
+    }
+}     
+?>

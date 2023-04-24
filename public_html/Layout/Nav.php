@@ -1,5 +1,13 @@
 
 
+<?php
+   $db = getDB();
+   $sql = "SELECT count(*) FROM `Cart` WHERE user_id = ?"; 
+   $result = $db->prepare($sql); 
+   $result->execute([get_user_id()]); 
+   $number_of_rows = $result->fetchColumn(); 
+?>
+
 
 <!-- Navbar-->
 
@@ -9,7 +17,7 @@
     <div class="d-flex">
       <!-- Brand -->
       <a class="navbar-brand me-2 mb-1 d-flex align-items-center" href="#">
-        Simple Shopt
+        Simple Shop
       </a>
 
     
@@ -18,6 +26,10 @@
 
     <!-- Center elements -->
     <ul class="navbar-nav flex-row d-none d-md-flex">
+      <a class="text-reset me-4" href="#">
+        <i class="fas fa-shopping-cart"></i>
+          <span class="badge rounded-pill badge-notification bg-danger"><?php echo $number_of_rows ?></span>
+      </a>
      <!-- Example split primary button -->
      <div class="btn-group shadow-0 mb-2">
       <button
