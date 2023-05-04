@@ -37,10 +37,12 @@ foreach($orders as $order) {
         <div class="card">
           <div class="card-body p-4">
 
-            <h1>Internal Transfer</h1>
+            <h1>Checkout</h1>
 
               <div >
-
+     <form class="mt-4" method="post">
+            <input type="hidden" name="submit_order"/>
+            <input type="hidden" name="total_price" value="<php? echo $sum ?>"/>
                 <div class="card bg-primary text-white rounded-3">
                   <div class="card-body">
                     <!-- <div class="d-flex justify-content-between align-items-center mb-4">
@@ -49,49 +51,34 @@ foreach($orders as $order) {
                         class="img-fluid rounded-3" style="width: 45px;" alt="Avatar">
                     </div> -->
 
-                    <p class="small mb-2">Card type</p>
+
                      <div class="form-group">
 
-                        <select class="form-control" id="exampleFormControlSelect1">
-                          <option value="Cash">Cash</option>
-                          <option value="Visa">Visa</option>
-                          <option value="MasterCard">Master Card</option>
-                          <option value="Amex">Amex</option>
+                                <div class="form-outline form-white mb-4">
+                                            <input required type="text" id="payment_method" class="form-control form-control-lg" siez="17"
+                                              placeholder="Enter Payment method" name="payment_method" />
+                                            <label class="form-label" for="payment_method">Payment Method</label>
+                                          </div>
 
-                        </select>
+                                             <div class="form-outline form-white mb-4">
+                                                                  <input required type="text" id="money_received" class="form-control form-control-lg" siez="17"
+                                                                    placeholder="Enter Amount" name="money_received" />
+                                                                  <label class="form-label" for="money_received">Amount</label>
+                                                                </div>
+
+                                                 <div class="form-outline form-white mb-4">
+                                                                  <input required type="text" id="address" class="form-control form-control-lg" siez="17"
+                                                                    placeholder="Enter Address" name="address" />
+                                                                  <label class="form-label" for="address">Address</label>
+                                                                </div>
+
                       </div>
 
-                    <form class="mt-4">
-                      <div class="form-outline form-white mb-4">
-                        <input type="text" id="typeName" class="form-control form-control-lg" siez="17"
-                          placeholder="Cardholder's Name" />
-                        <label class="form-label" for="typeName">Cardholder's Name</label>
-                      </div>
 
-                      <div class="form-outline form-white mb-4">
-                        <input type="text" id="typeText" class="form-control form-control-lg" siez="17"
-                          placeholder="1234 5678 9012 3457" minlength="19" maxlength="19" />
-                        <label class="form-label" for="typeText">Card Number</label>
-                      </div>
 
-                      <div class="row mb-4">
-                        <div class="col-md-6">
-                          <div class="form-outline form-white">
-                            <input type="text" id="typeExp" class="form-control form-control-lg"
-                              placeholder="MM/YYYY" size="7" id="exp" minlength="7" maxlength="7" />
-                            <label class="form-label" for="typeExp">Expiration</label>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-outline form-white">
-                            <input type="password" id="typeText" class="form-control form-control-lg"
-                              placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />
-                            <label class="form-label" for="typeText">Cvv</label>
-                          </div>
-                        </div>
-                      </div>
 
-                    </form>
+
+
                    
                     <hr class="my-4">
 
@@ -100,24 +87,24 @@ foreach($orders as $order) {
                       <p class="mb-2"><?php echo $sum ?></p>
                     </div>
 
-                    <div class="d-flex justify-content-between">
-                      <p class="mb-2">Shipping</p>
-                      <p class="mb-2">$20.00</p>
-                    </div>
+
 
                     <div class="d-flex justify-content-between mb-4">
                       <p class="mb-2">Total(Incl. taxes)</p>
-                      <p class="mb-2"><?php echo $sum + 20 ?></p>
+                      <p class="mb-2"><?php echo $sum ?></p>
                     </div>
 
             
                   </div>
                 </div>
 
+
+
               </div>
-
+              <br>
+          <button type="submit" class="btn btn-primary">Submit Order</a>
+                      </form>
             </div>
-
           </div>
         </div>
       </div>
@@ -127,7 +114,62 @@ foreach($orders as $order) {
     </div>
     <!-- End your project here-->
 
+<?php
+function validate_street_address($string) {
+    $check_pattern = '/\d+ [0-9a-zA-Z ]+/';
+    $has_error = !preg_match($check_pattern, $string);
+    // Returns boolean:
+    // 0 = False/ No error
+    // 1 = True/ Has error
+    return $has_error;
+}
 
+//UCID GR27
+
+if (isset($_POST["submit_order"])) {
+    $total_price = $sum;
+    $address = se($_POST, "address", "", false);
+    $payment_method = se($_POST, "payment_method", "", false);
+    $money_received = se($_POST, "money_received", "", false);
+    $user_id = get_user_id();
+
+    //UCID GR27
+    $hasError = false;
+    if (validate_street_address($address)) {
+        flash("Enter Valid Address", "warning");
+        $hasError = true;
+    }
+
+    if (!str_contains("cash,visa,mastercard,amex",strtolower($payment_method))) {
+        flash("Please select only Cash, Visa, MasterCard, Amex", "warning");
+        $hasError = true;
+    }
+
+    if ($money_received < $total_price) {
+        flash("Payment should be equal to or greater than order total Total is {$total_price} and money received {$money_received}", "warning");
+        $hasError = true;
+    }
+
+    if (!$hasError) {
+        //flash("Welcome, $email");
+        //TODO 4
+        $db = getDB();
+
+         $stmt = $db->prepare("INSERT INTO Orders (user_id, total_price, address, payment_method, money_received) VALUES(:user_id, :total_price, :address, :payment_method, :money_received)");
+         try {
+            $stmt->execute([":user_id" => $user_id, ":address" => $address, ":payment_method" => $payment_method, ":total_price" => $total_price, ":money_received" => $money_received]);
+            flash("Successfully registered!", "success");
+         } catch (Exception $e) {
+            flash("<pre>" . var_export($e, true) . "</pre>");
+        }
+    }
+}
+?>
+<?php
+require(__DIR__ . "/../../partials/flash.php");
+
+
+?>
   </body>
 </html>
 
