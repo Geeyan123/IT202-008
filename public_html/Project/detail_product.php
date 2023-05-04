@@ -63,6 +63,10 @@
                             <button type="submit" class="btn btn-primary">Add to cart</a>
                             <?php } ?>
 
+                            <?php if(has_role('Admin')) { ?>
+                            <a href="<?php echo get_url('admin/product_edit.php?id='.$product['id'])?>" class="btn btn-primary">Edit</a>
+                            <?php } ?>
+
                     </div>
                 </div>
             </form>
@@ -124,7 +128,7 @@ if (isset($_POST["product_id"])) {
             $stmt->execute([":stock" => $product['stock'] - 1, ":product_id" => $product['id']]);
             flash("Order added to cart!", "success");
 
-            
+
         } catch (Exception $e) {
             print_r($e);
         }

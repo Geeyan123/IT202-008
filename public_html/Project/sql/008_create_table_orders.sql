@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS `Orders` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `user_id` INT,
+    `total_price` VARCHAR(100),
+    `address` VARCHAR(255),
+    `payment_method` VARCHAR(100),
+    `money_received` VARCHAR(100),
+    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+)

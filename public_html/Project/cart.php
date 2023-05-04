@@ -83,7 +83,7 @@ foreach($orders as $order) {
 
                 <div class="card bg-primary text-white rounded-3">
                   <div class="card-body">
-                   
+
                     <hr class="my-4">
 
                     <div class="d-flex justify-content-between">
@@ -108,7 +108,7 @@ foreach($orders as $order) {
               </div>
 
             </div>
-
+                <a href="payment.php" class="btn btn-primary">Continue Payment</a>
           </div>
         </div>
       </div>
