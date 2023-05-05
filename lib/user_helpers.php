@@ -36,6 +36,14 @@ function get_username()
     }
     return "";
 }
+
+function get_visibility()
+{
+    if (is_logged_in()) { //we need to check for login first because "user" key may not exist
+        return se($_SESSION["user"], "privacy", "", false);
+    }
+    return false;
+}
 function get_user_email()
 {
     if (is_logged_in()) { //we need to check for login first because "user" key may not exist
