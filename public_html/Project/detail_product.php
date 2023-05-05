@@ -54,50 +54,7 @@
                 <input type="hidden" name="stock" value="<?php echo $product['stock'] ?>" >    
                 <input type="hidden" name="unit_price" value="<?php echo $product['unit_price'] ?>" >    
     
-               <?php
-               if (!$rating) {
-                   // User has not rated this product yet, show rating form
-                   echo '<form method="post">';
-                   echo '<label for="rating">Rating:</label>';
-                   echo '<select name="rating" id="rating">';
-                   echo '<option value="1">1</option>';
-                   echo '<option value="2">2</option>';
-                   echo '<option value="3">3</option>';
-                   echo '<option value="4">4</option>';
-                   echo '<option value="5">5</option>';
-                   echo '</select>';
-                   echo '<br>';
-                   echo '<label for="comment">Comment:</label>';
-                   echo '<textarea name="comment" id="comment"></textarea>';
-                   echo '<br>';
-                   echo '<input type="submit" value="Submit">';
-                   echo '</form>';
 
-                   // Handle form submission
-                   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                       $rating = $_POST['rating'];
-                       $comment = $_POST['comment'];
-
-                       // Insert new rating into database
-                       $stmt = $db->prepare("INSERT INTO Ratings (product_id, user_id, rating, comment) VALUES (?, ?, ?, ?)");
-                       $stmt->execute([$id, get_user_id(), $rating, $comment]);
-
-                       // Update average rating for this product
-                       $stmt = $db->prepare("UPDATE Products SET avg_rating = (SELECT AVG(rating) FROM Ratings WHERE product_id = ?) WHERE id = ?");
-                       $stmt->execute([$id, $id]);
-
-                       $url = get_url('detail_product.php?id='.$id);
-                       // Redirect back to product details page
-                       header("Location: {$url}");
-                       exit;
-                   }
-               } else {
-                   // User has already rated this product, show their rating and comment
-                   echo "<p>You have rated this product $rating[rating] stars with the following comment:</p>";
-                   echo "<p>$rating[comment]</p>";
-               }
-
-               ?>
                 <div class="col-md">
                     <div class="card text-center">
                         <div class="card-header"><?php echo $product['category'] ?></div>
@@ -119,6 +76,51 @@
                     </div>
                 </div>
             </form>
+
+                <?php
+                if (!$rating) {
+                    // User has not rated this product yet, show rating form
+                    echo '<form method="post">';
+                    echo '<label for="rating">Rating:</label>';
+                    echo '<select name="rating" id="rating">';
+                    echo '<option value="1">1</option>';
+                    echo '<option value="2">2</option>';
+                    echo '<option value="3">3</option>';
+                    echo '<option value="4">4</option>';
+                    echo '<option value="5">5</option>';
+                    echo '</select>';
+                    echo '<br>';
+                    echo '<label for="comment">Comment:</label>';
+                    echo '<textarea name="comment" id="comment"></textarea>';
+                    echo '<br>';
+                    echo '<input type="submit" value="Submit">';
+                    echo '</form>';
+
+                    // Handle form submission
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $rating = $_POST['rating'];
+                        $comment = $_POST['comment'];
+
+                        // Insert new rating into database
+                        $stmt = $db->prepare("INSERT INTO Ratings (product_id, user_id, rating, comment) VALUES (?, ?, ?, ?)");
+                        $stmt->execute([$id, get_user_id(), $rating, $comment]);
+
+                        // Update average rating for this product
+                        $stmt = $db->prepare("UPDATE Products SET avg_rating = (SELECT AVG(rating) FROM Ratings WHERE product_id = ?) WHERE id = ?");
+                        $stmt->execute([$id, $id]);
+
+                        $url = get_url('detail_product.php?id='.$id);
+                        // Redirect back to product details page
+                        header("Location: {$url}");
+                        exit;
+                    }
+                } else {
+                    // User has already rated this product, show their rating and comment
+                    echo "<p>You have rated this product $rating[rating] stars with the following comment:</p>";
+                    echo "<p>$rating[comment]</p>";
+                }
+
+                ?>
             </div>
         </div>
 

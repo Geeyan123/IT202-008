@@ -108,6 +108,7 @@ foreach($orders as $order) {
         </div>
       </div>
   </form>
+  </div>
     </section>
     </div>
 
