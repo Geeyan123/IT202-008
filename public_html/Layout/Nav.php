@@ -45,6 +45,7 @@
         <?php if (is_logged_in()) : ?>
             <li><a class="dropdown-item" href="<?php echo get_url('home.php'); ?>">Home</a></li>
             <li><a class="dropdown-item" href="<?php echo get_url('profile.php'); ?>">Profile</a></li>
+            <li><a class="dropdown-item" href="<?php echo get_url('order_history.php'); ?>">Order History</a></li>
         <?php endif; ?>
         <?php if (!is_logged_in()) : ?>
             <li><a class="dropdown-item" href="<?php echo get_url('login.php'); ?>">Login</a></li>

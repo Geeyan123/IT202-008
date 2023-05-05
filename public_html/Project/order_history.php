@@ -18,47 +18,59 @@ if (is_logged_in(true)) {
     error_log("Session data: " . var_export($_SESSION, true));
 }
 
-$id = $_GET['id'];
 $db = getDB();
-$stmt = $db->prepare("select * FROM Orders where id=? LIMIT 1");
-$stmt->execute([$id]);
-$order = $stmt->fetch();
-
-$stmt = $db->prepare("SELECT OrderItems.*, Products.name
-                      FROM OrderItems
-                      INNER JOIN Products ON OrderItems.product_id = Products.id
-                      WHERE OrderItems.order_id = ?");
-$stmt->execute([$order['id']]);
-$orderItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $db->prepare("select * FROM Orders where user_id=?");
+$stmt->execute([get_user_id()]);
+$orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $stmt->execute([$o['id']]);
 
 
-$sum = 0;
-foreach($orderItems as $item) {
-    $sum = $sum + $item['quantity'] * $item['unit_price'];
-}
 ?>
     <!-- Start your project here-->
     <div class="container">
     <section class="h-100 h-custom" style="background-color: #eee;">
+    <h1>Order History Page</h1>
   <div class="container py-5 h-100">
+    <?php foreach($orders as $o) {
+
+                 $stmt = $db->prepare("SELECT OrderItems.*, Products.name
+                                       FROM OrderItems
+                                       INNER JOIN Products ON OrderItems.product_id = Products.id
+                                       WHERE OrderItems.order_id = ?");
+                                           $stmt->execute([$o['id']]);
+
+                          $orderItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+                          $sum = 0;
+                          foreach($orderItems as $item) {
+                              $sum = $sum + $item['quantity'] * $item['unit_price'];
+                          }
+
+                          ?>
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col">
+
         <div class="card">
           <div class="card-body p-4">
-            <h1>Order Confirmation Page</h1>
+
+
+
+
+
             <div class="row">
-              <div class="col-lg-7">
+              <div class="col-lg-12">
                 <hr>
                 <div class="d-flex justify-content-between align-items-center mb-4">
                   <div>
                     <p class="mb-1">Order Detail</p>
                     <p class="mb-0">This Order have <?php echo count($orderItems) ?> items in your cart</p>
-                    <p class="mb-0">Address: <?php echo $order['address'] ?></p>
+                    <p class="mb-0">Address: <?php echo $o['address'] ?></p>
                   </div>
                  
                 </div>
 
-                <?php foreach($orderItems as $order) { ?>
+ <?php foreach($orderItems as $order) { ?>
 
                 <div class="card mb-3">
                   <div class="card-body">
@@ -87,37 +99,20 @@ foreach($orderItems as $item) {
                 </div>
                 <?php } ?>
 
-              </div>
-              <div class="col-lg-5">
-
-                <div class="card bg-primary text-white rounded-3">
-                  <div class="card-body">
-
-                    <hr class="my-4">
-
-                    <div class="d-flex justify-content-between">
-                      <p class="mb-2">Subtotal</p>
-                      <p class="mb-2"><?php echo $sum ?></p>
-                    </div>
-
-
-
-                    <div class="d-flex justify-content-between mb-4">
-                      <p class="mb-2">Total(Incl. taxes)</p>
-                      <p class="mb-2"><?php echo $sum ?></p>
-                    </div>
-
-            
-                  </div>
-                </div>
 
               </div>
+
+              </div>
+
+
 
             </div>
 
           </div>
+
         </div>
       </div>
+             <?php } ?>
     </div>
   </div>
 </section>
