@@ -61,6 +61,7 @@
         <?php if (is_logged_in()) : ?>
             <li><a class="dropdown-item" href="<?php echo get_url('logout.php'); ?>">Logout</a></li>
         <?php endif; ?>
+          <li><a class="dropdown-item" href="<?php echo get_url('shop.php'); ?>">Shop</a></li>
       </ul>
     </div>
 

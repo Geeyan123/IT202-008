@@ -32,7 +32,7 @@ foreach($orders as $order) {
     <!-- Start your project here-->
     <div class="container">
     <section class="h-100 h-custom" style="background-color: #eee;">
-  <div class="container py-5 h-100">
+  <form class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col">
         <div class="card">
@@ -102,15 +102,17 @@ foreach($orders as $order) {
 
               </div>
               <br>
-          <button type="submit" class="btn btn-primary">Submit Order</a>
-                      </form>
-            </div>
+              <button type="submit" class="btn btn-primary">Submit Order</button>
+          </div>
           </div>
         </div>
       </div>
+  </form>
+    </section>
     </div>
-  </div>
-</section>
+
+
+
 <?php
 require(__DIR__ . "/../../partials/flash.php");
 
