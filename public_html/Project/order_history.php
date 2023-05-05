@@ -92,7 +92,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
   <div class="container py-5 h-100">
-    <form method="GET" action="orders.php">
+    <form method="GET" action="order_history.php">
       <div>
         <label for="filter">Filter by category:</label>
         <select name="filter" id="filter">
