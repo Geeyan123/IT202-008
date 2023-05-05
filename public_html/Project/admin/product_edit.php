@@ -3,6 +3,7 @@
     <body>
 
         <?php
+        ob_start();
         require(__DIR__ . "/../../Layout/Main.php");
         ?>
 
@@ -96,14 +97,17 @@ if (isset($_POST["name"])) {
     }
     if (!$hasError) {
         $db = getDB();
-        $stmt = $db->prepare("INSERT INTO Products (name, description, category, stock, unit_price, visibility) VALUES(:name, :description, :category, :stock, :unit_price, :visibility)");
+        $stmt = $db->prepare("UPDATE Products SET name = :name, description = :description, category = :category, stock = :stock, unit_price = :unit_price, visibility = :visibility WHERE id = :id");
         try {
-            $stmt->execute([":name" => $name, ":description" => $description, ":category" => $category, ":stock" => $stock, ":unit_price" => $unit_price, ":visibility" => $visibility]);
-            flash("Product Successfully created!", "success");
+            $stmt->execute([":name" => $name, ":description" => $description, ":category" => $category, ":stock" => $stock, ":unit_price" => $unit_price, ":visibility" => $visibility, ":id" => $id]);
+            flash("Product Successfully updated!", "success");
+            $url = get_url('shop.php');
+            die(header("Location: {$url}"));
         } catch (Exception $e) {
             print_r($e);
         }
-    }
-}     
 
+    }
+}
+ob_end_flush();
 ?>
