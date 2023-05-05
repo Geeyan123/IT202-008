@@ -32,7 +32,7 @@ foreach($orders as $order) {
     <!-- Start your project here-->
     <div class="container">
     <section class="h-100 h-custom" style="background-color: #eee;">
-  <form class="container py-5 h-100">
+  <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col">
         <div class="card">
@@ -104,11 +104,18 @@ foreach($orders as $order) {
               <br>
               <button type="submit" class="btn btn-primary">Submit Order</button>
           </div>
+            </form>
           </div>
+
         </div>
+
       </div>
-  </form>
+
+
   </div>
+
+  </div>
+
     </section>
     </div>
 
