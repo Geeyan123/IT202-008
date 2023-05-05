@@ -3,6 +3,7 @@
     <body>
 
         <?php
+        ob_start();
         require(__DIR__ . "/../Layout/Main.php");
         ?>
 
@@ -77,7 +78,6 @@
 </html>
 
 <?php
-    print_r($_POST);
 if (isset($_POST["product_id"])) {
    
     $user_id = (int) se($_POST, "user_id", "", false);
@@ -128,10 +128,12 @@ if (isset($_POST["product_id"])) {
             $stmt->execute([":stock" => $product['stock'] - 1, ":product_id" => $product['id']]);
             flash("Order added to cart!", "success");
 
-
+            $url = get_url('detail_product.php?id='.$product_id);
+            die(header("Location: {$url}"));
         } catch (Exception $e) {
             print_r($e);
         }
     }
-}     
+}
+ ob_end_flush();
 ?>
