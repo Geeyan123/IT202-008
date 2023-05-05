@@ -19,8 +19,14 @@ if (is_logged_in(true)) {
 }
 
 $db = getDB();
+if (!has_role("Owner")) {
+$stmt = $db->prepare("select * FROM Orders");
+$stmt->execute();
+} else {
 $stmt = $db->prepare("select * FROM Orders where user_id=?");
 $stmt->execute([get_user_id()]);
+}
+
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // $stmt->execute([$o['id']]);
 
