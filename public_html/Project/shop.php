@@ -11,7 +11,7 @@
             $sql = "select * FROM Products where visibility = 1";
             $orderby = isset($_GET['order']) ? $_GET['order'] : 'desc';
 
-            if ($sort == 'rating') {
+            if ($sort == 'avg_rating') {
               $sql .= " ORDER BY avg_rating $orderby";
             } else {
               $sql .= " ORDER BY id $orderby";
@@ -31,6 +31,13 @@
                     <select name="sort" id="sort">
                         <option value="id">id</option>
                         <option value="avg_rating">Avg Rating</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="order">Order:</label>
+                    <select name="order" id="order">
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
                     </select>
                 </div>
                 <button type="submit">Apply filters</button>
