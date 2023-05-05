@@ -100,7 +100,7 @@
             echo '</form>';
 
             // Handle form submission
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["rating"])) {
                 $rating = $_POST['rating'];
                 $comment = $_POST['comment'];
 
