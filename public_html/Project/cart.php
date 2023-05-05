@@ -108,7 +108,7 @@ foreach($orders as $order) {
               </div>
 
             </div>
-                <a href="payment.php" class="btn btn-primary">Continue Payment</a>
+                <a href="payment.php" class="btn btn-primary">Place Order</a>
           </div>
         </div>
       </div>
