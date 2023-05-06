@@ -1,7 +1,15 @@
-<?php
-require(__DIR__ . "/../../partials/nav.php");
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+  <body>
+
+  <?php
+require(__DIR__ . "/../Layout/Main.php");
 ?>
-<h1>Home</h1>
+
 <?php
 
 if (is_logged_in(true)) {
@@ -9,6 +17,14 @@ if (is_logged_in(true)) {
     error_log("Session data: " . var_export($_SESSION, true));
 }
 ?>
-<?php
-require(__DIR__ . "/../../partials/flash.php");
-?>
+    <!-- Start your project here-->
+    <div class="container">
+      <div class="d-flex justify-content-center align-items-center" style="height: 100vh">
+        <h1>Welcome to Simple Shop</h1>
+      </div>
+    </div>
+    <!-- End your project here-->
+
+
+  </body>
+</html>
