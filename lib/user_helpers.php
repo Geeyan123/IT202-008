@@ -14,7 +14,7 @@ function is_logged_in($redirect = false, $destination = "login.php")
     }
     return $isLoggedIn;
 }
-function has_role($role)
+function has_role($role, $redirect = false, $destination = "home.php")
 {
     if (is_logged_in() && isset($_SESSION["user"]["roles"])) {
         foreach ($_SESSION["user"]["roles"] as $r) {
@@ -22,6 +22,10 @@ function has_role($role)
                 return true;
             }
         }
+    }
+    if ($redirect) {
+        flash("You are not authorized to view this page", "warning");
+        die(header("Location: $destination"));
     }
     return false;
 }
@@ -31,6 +35,14 @@ function get_username()
         return se($_SESSION["user"], "username", "", false);
     }
     return "";
+}
+
+function get_visibility()
+{
+    if (is_logged_in()) { //we need to check for login first because "user" key may not exist
+        return se($_SESSION["user"], "privacy", "", false);
+    }
+    return false;
 }
 function get_user_email()
 {

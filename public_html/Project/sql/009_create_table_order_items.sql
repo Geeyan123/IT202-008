@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS `OrderItems` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `order_id` INT,
+    `product_id` INT,
+    `quantity` INT,
+    `unit_price` VARCHAR(255),
+    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+)

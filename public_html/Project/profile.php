@@ -6,6 +6,7 @@ is_logged_in(true);
 if (isset($_POST["save"])) {
     $email = se($_POST, "email", null, false);
     $username = se($_POST, "username", null, false);
+    $privacy = se($_POST, "privacy", null, false);
     $hasError = false;
     //sanitize
     $email = sanitize_email($email);
@@ -29,7 +30,7 @@ if (isset($_POST["save"])) {
             users_check_duplicate($e->errorInfo);
         }
         //select fresh data from table
-        $stmt = $db->prepare("SELECT id, email, username from Users where id = :id LIMIT 1");
+        $stmt = $db->prepare("SELECT id, email, username, privacy from Users where id = :id LIMIT 1");
         try {
             $stmt->execute([":id" => get_user_id()]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -37,6 +38,7 @@ if (isset($_POST["save"])) {
                 //$_SESSION["user"] = $user;
                 $_SESSION["user"]["email"] = $user["email"];
                 $_SESSION["user"]["username"] = $user["username"];
+                $_SESSION["user"]["privacy"] = $privacy;
             } else {
                 flash("User doesn't exist", "danger");
             }
@@ -70,6 +72,7 @@ if (isset($_POST["save"])) {
                             $stmt = $db->prepare($query);
                             $stmt->execute([
                                 ":id" => get_user_id(),
+                                ":privacy" => $privacy,
                                 ":password" => password_hash($new_password, PASSWORD_BCRYPT)
                             ]);
 
@@ -92,6 +95,7 @@ if (isset($_POST["save"])) {
 <?php
 $email = get_user_email();
 $username = get_username();
+$visibility = get_visibility() ? 'checked' : '';
 ?>
 <form method="POST" onsubmit="return validate(this);">
     <div class="mb-3">
@@ -115,6 +119,11 @@ $username = get_username();
     <div class="mb-3">
         <label for="conp">Confirm Password</label>
         <input type="password" name="confirmPassword" id="conp" />
+    </div>
+
+    <div class="mb-3">
+        <label for="visibility">Private</label>
+        <input <?php echo $visibility ?> type="checkbox" name="privacy" id="visibility" />
     </div>
     <input type="submit" value="Update Profile" name="save" />
 </form>
